@@ -1,5 +1,5 @@
 authors = ["WneleiGao <wgao1@ualberta.ca>"]
-name = "SeisOptimization.jl"
+name = "SeisOptimization"
 uuid = "f3ce3dba-9f83-11e9-07f2-b980368644a0"
 version = "0.1.0"
 

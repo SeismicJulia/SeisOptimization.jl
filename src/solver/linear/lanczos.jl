@@ -2,12 +2,12 @@
    Lanczos bidiagonalization with partial reorthogonalization, A can be matrix or
 forward operator. k is the steps. r0 is the starting vector. the output U is a m*k
 matrix, Bk is a k*k bidiagonal matrix and V is a n*k matrix and the residue vector
-r0 make A*V_{k} = U_{k} * B_{k} + u_{k+1} * bet_{k+1] * e_{k}' and r0 = u_{k+1} * beta[k+1]
+r0 make A*V_{k} = U_{k} * B_{k} + u_{k+1} * beta_{k+1} * e_{k}' and r0 = u_{k+1} * beta[k+1]
 
 the call of the functon is
 (U, Bk, V, r0, ierr, workload) = lanbpro(A, k, r0)
 
-work =[numReoU, numIptU; numReoV, numIptV]
+workload =[numReoU, numIptU; numReoV, numIptV]
 
 numReoU: number of orthgonalization for U
 numIptU: number of inner product for U
@@ -19,15 +19,18 @@ function lanbpro(A, k::Ti; m=[], n=[], params=[],
                  delta=[], Anorm=[], Uold=[], Bold=[], Vold=[], r0=[],
                  examine_flag=false, elr_flag=true) where {Ti<:Int64}
 
-    # A can be a function or matrix
+    # decide A is a function or operator
     matrix_flag = isa(A, Matrix)
 
+    # A is a matrix
     if matrix_flag
-       etype = eltype(A)
+       Tv = eltype(A)
        (m, n) = size(A)
+
+    # A is function
     else
        if m == [] || n==[]
-          error("must specify the size of operator")
+          error("must specify the size of operator A")
        end
        etype = Float64
     end
